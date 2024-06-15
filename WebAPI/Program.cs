@@ -4,6 +4,7 @@ using Infrastructure.Data;
 using Npgsql;
 using System.Data;
 using Microsoft.Extensions.Logging;
+using WebAPI.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,6 +34,9 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+// Use the exception middleware
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.MapControllers();
 
