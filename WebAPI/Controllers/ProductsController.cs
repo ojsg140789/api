@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using Shared.DTOs;
 
 namespace WebAPI.Controllers
 {
@@ -21,14 +22,14 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Product>> Get()
+        public async Task<IEnumerable<ProductDto>> Get()
         {
             _logger.LogInformation("Getting all products");
             return await _productService.GetAllAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> Get(int id)
+        public async Task<ActionResult<ProductDto>> Get(int id)
         {
             _logger.LogInformation("Getting product with id {id}", id);
             var product = await _productService.GetByIdAsync(id);
@@ -41,19 +42,18 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] Product product)
+        public async Task<ActionResult> Post([FromBody] CreateProductDto createProductDto)
         {
             _logger.LogInformation("Creating a new product");
-            await _productService.AddAsync(product);
-            return CreatedAtAction(nameof(Get), new { id = product.Id }, product);
+            await _productService.AddAsync(createProductDto);
+            return CreatedAtAction(nameof(Get), new { id = createProductDto.Name }, createProductDto);
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> Put(int id, [FromBody] Product product)
+        public async Task<ActionResult> Put(int id, [FromBody] CreateProductDto updateProductDto)
         {
             _logger.LogInformation("Updating product with id {id}", id);
-            product.Id = id;
-            await _productService.UpdateAsync(product);
+            await _productService.UpdateAsync(id, updateProductDto);
             return NoContent();
         }
 

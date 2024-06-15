@@ -1,6 +1,8 @@
 using Core.Entities;
 using Core.Interfaces;
+using Shared.DTOs;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Application.Services
@@ -14,29 +16,54 @@ namespace Application.Services
             _productRepository = productRepository;
         }
 
-        public Task<IEnumerable<Product>> GetAllAsync()
+        public async Task<IEnumerable<ProductDto>> GetAllAsync()
         {
-            return _productRepository.GetAllAsync();
+            var products = await _productRepository.GetAllAsync();
+            return products.Select(p => new ProductDto
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Price = p.Price
+            });
         }
 
-        public Task<Product> GetByIdAsync(int id)
+        public async Task<ProductDto> GetByIdAsync(int id)
         {
-            return _productRepository.GetByIdAsync(id);
+            var product = await _productRepository.GetByIdAsync(id);
+            if (product == null) return null;
+
+            return new ProductDto
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Price = product.Price
+            };
         }
 
-        public Task AddAsync(Product product)
+        public async Task AddAsync(CreateProductDto createProductDto)
         {
-            return _productRepository.AddAsync(product);
+            var product = new Product
+            {
+                Name = createProductDto.Name,
+                Price = createProductDto.Price
+            };
+            await _productRepository.AddAsync(product);
         }
 
-        public Task UpdateAsync(Product product)
+        public async Task UpdateAsync(int id, CreateProductDto updateProductDto)
         {
-            return _productRepository.UpdateAsync(product);
+            var product = new Product
+            {
+                Id = id,
+                Name = updateProductDto.Name,
+                Price = updateProductDto.Price
+            };
+            await _productRepository.UpdateAsync(product);
         }
 
-        public Task DeleteAsync(int id)
+        public async Task DeleteAsync(int id)
         {
-            return _productRepository.DeleteAsync(id);
+            await _productRepository.DeleteAsync(id);
         }
     }
 }

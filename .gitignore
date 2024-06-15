@@ -6,3 +6,7 @@ Infrastructure/bin
 Infrastructure/obj
 WebAPI/bin
 WebAPI/obj
+Shared/obj
+Shared/bin
+
+.vs/
