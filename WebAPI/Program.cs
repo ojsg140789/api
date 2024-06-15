@@ -40,7 +40,8 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-// Use the exception middleware
+app.UseMiddleware<ApiKeyMiddleware>();
+
 app.UseMiddleware<ExceptionMiddleware>();
 
 app.MapControllers();
