@@ -4,5 +4,6 @@ namespace Shared.DTOs
     {
         public string Name { get; set; }
         public decimal Price { get; set; }
+        public string FileName { get; set; }
     }
 }

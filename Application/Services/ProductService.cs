@@ -23,7 +23,8 @@ namespace Application.Services
             {
                 Id = p.Id,
                 Name = p.Name,
-                Price = p.Price
+                Price = p.Price,
+                FileName = p.FileName
             });
         }
 
@@ -36,7 +37,8 @@ namespace Application.Services
             {
                 Id = product.Id,
                 Name = product.Name,
-                Price = product.Price
+                Price = product.Price,
+                FileName = product.FileName
             };
         }
 
@@ -45,7 +47,8 @@ namespace Application.Services
             var product = new Product
             {
                 Name = createProductDto.Name,
-                Price = createProductDto.Price
+                Price = createProductDto.Price,
+                FileName = createProductDto.FileName
             };
             await _productRepository.AddAsync(product);
         }
@@ -56,7 +59,8 @@ namespace Application.Services
             {
                 Id = id,
                 Name = updateProductDto.Name,
-                Price = updateProductDto.Price
+                Price = updateProductDto.Price,
+                FileName = updateProductDto.FileName
             };
             await _productRepository.UpdateAsync(product);
         }
