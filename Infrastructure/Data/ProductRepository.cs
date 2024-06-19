@@ -36,7 +36,7 @@ namespace Infrastructure.Data
 
         public async Task UpdateAsync(Product product)
         {
-            var sql = "UPDATE Products SET Name = @Name, Price = @Price WHERE Id = @Id";
+            var sql = "UPDATE Products SET Name = @Name, Price = @Price, FileName = @FileName WHERE Id = @Id";
             await _dbConnection.ExecuteAsync(sql, product);
         }
 
