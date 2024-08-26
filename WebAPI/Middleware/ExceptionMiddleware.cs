@@ -40,7 +40,7 @@ namespace WebAPI.Middleware
                 Type = "http://servidor-ejemplo.com",
                 Title = "An unexpected error occurred.",
                 Status = (int)statusCode,
-                Detail = exception.Message,
+                Detail = "Mensage configurable",
                 Instance = context.Request.Path
             };
 

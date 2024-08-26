@@ -44,6 +44,11 @@ namespace WebAPI.Controllers
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] CreateProductDto createProductDto)
         {
+            if (createProductDto == null)
+            {
+                _logger.LogWarning("Producto no proporcionado");
+                return BadRequest();
+            }
             _logger.LogInformation("Creating a new product");
             await _productService.AddAsync(createProductDto);
             return CreatedAtAction(nameof(Get), new { id = createProductDto.Name }, createProductDto);
@@ -53,6 +58,11 @@ namespace WebAPI.Controllers
         public async Task<ActionResult> Put(int id, [FromBody] CreateProductDto updateProductDto)
         {
             _logger.LogInformation("Updating product with id {id}", id);
+            if (updateProductDto == null || id.ToString() == null)
+            {
+                _logger.LogWarning("Producto no proporcionado");
+                return BadRequest();
+            }
             await _productService.UpdateAsync(id, updateProductDto);
             return NoContent();
         }
@@ -61,6 +71,11 @@ namespace WebAPI.Controllers
         public async Task<ActionResult> Delete(int id)
         {
             _logger.LogInformation("Deleting product with id {id}", id);
+            if (id.ToString() == null)
+            {
+                _logger.LogWarning("Producto no proporcionado");
+                return BadRequest();
+            }
             await _productService.DeleteAsync(id);
             return NoContent();
         }
